@@ -86,7 +86,6 @@ class Callback:
     def __init__(self, data):
         """This class can be used to parse LAVA callback data"""
         self._data = data
-        self._meta = None
 
     def get_data(self):
         """Get the raw callback data"""
@@ -95,22 +94,19 @@ class Callback:
     def get_device_id(self):
         """Get the ID of the tested device"""
         return self._data.get('actual_device_id')
+    
+    def get_job_definition(self):
+        """Get the job definition"""
+        return yaml.safe_load(self._data['definition'])
 
     def get_meta(self, key):
         """Get a metadata value from the job definition"""
-        if self._meta is None:
-            job_def = self.get_job_definition()
-            self._meta = job_def['metadata']
-        return self._meta.get(key)
+        return self.get_job_definition()['metadata'].get(key)
 
     def get_job_status(self):
         """Get the job status"""
         # map over LAVA_JOB_RESULT_NAMES
         return self.LAVA_JOB_RESULT_NAMES.get(self._data['status'])
-
-    def get_job_definition(self):
-        """Get the job definition"""
-        return yaml.safe_load(self._data['definition'])
 
     def is_infra_error(self):
         """Determine wether the job has hit an infrastructure error"""
