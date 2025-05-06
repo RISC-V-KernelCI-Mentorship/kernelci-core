@@ -95,13 +95,13 @@ class Callback:
         """Get the ID of the tested device"""
         return self._data.get('actual_device_id')
     
-    def get_job_definition(self):
+    def get_job_definition(self, key):
         """Get the job definition"""
-        return yaml.safe_load(self._data['definition'])
+        return yaml.safe_load(self._data['definition']).get(key)
 
     def get_meta(self, key):
         """Get a metadata value from the job definition"""
-        return self.get_job_definition()['metadata'].get(key)
+        return self.get_job_definition('metadata').get(key)
 
     def get_job_status(self):
         """Get the job status"""
