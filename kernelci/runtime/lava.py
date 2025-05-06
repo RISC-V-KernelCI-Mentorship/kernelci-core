@@ -97,7 +97,7 @@ class Callback:
     
     def get_job_definition(self, key):
         """Get the job definition"""
-        return yaml.safe_load(self._data['definition']).get(key)
+        return yaml.safe_load(self._data.get('definition')).get(key)
 
     def get_meta(self, key):
         """Get a metadata value from the job definition"""
