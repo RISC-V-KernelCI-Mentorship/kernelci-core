@@ -99,13 +99,18 @@ class Callback:
     def get_meta(self, key):
         """Get a metadata value from the job definition"""
         if self._meta is None:
-            self._meta = yaml.safe_load(self._data['definition'])['metadata']
+            job_def = self.get_job_definition()
+            self._meta = job_def['metadata']
         return self._meta.get(key)
 
     def get_job_status(self):
         """Get the job status"""
         # map over LAVA_JOB_RESULT_NAMES
         return self.LAVA_JOB_RESULT_NAMES.get(self._data['status'])
+
+    def get_job_definition(self):
+        """Get the job definition"""
+        return yaml.safe_load(self._data['definition'])
 
     def is_infra_error(self):
         """Determine wether the job has hit an infrastructure error"""
